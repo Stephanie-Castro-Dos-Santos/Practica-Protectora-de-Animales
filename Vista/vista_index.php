@@ -8,7 +8,7 @@
 <body>
 
     <!--FORMULARIO SELECT PARA ELEGIR TABLA-->
-    <form name="formulario" method="post" action="">
+    <form name="formulario" method="post" action="index.php">
 
         <select name="tablas">
             <legend>Selecciona la tabla</legend>
@@ -28,28 +28,30 @@
     <button>Modificar</button> <!-- Redirección a la VISTA (UPDATE) -->
     <button>Borrar</button> <!-- Redirección a la VISTA (BORRAR) -->
 
-    <?php
-        if(isset($_POST["botonEnviar"])){
-            //get_object_vars($this) : array
-            $elemento;
+    <table>
+        <tr>
+            <?php
+                    if($columnas!=false && $datos!=false){
+                        //Imprimir nombres de columnas
+                        foreach($columnas as $columna){
+                            echo "<th>".$columna."</th>";
+                        }
 
-            switch((int)$_POST["tablas"]){
-                case 1:
-                    $elemento=new Usuario();
-                    break;
+                        //Imprimir los registros
+                        foreach($datos as $dato){
+                            echo "<td>".$dato."</td>";
+                        }
 
-                case 2:
-                    $elemento=new Animal();
-                    break;
+                    }
+            ?>
+        </tr>
 
-                case 3:
-                    $elemento=new Adopcion();
-                    break;
-            }
+        <?php
 
-            $columnas=get_object_vars($elemento);
-        }
-    ?>
+        ?>
+
+    </table>
+
     
 </body>
 </html>
