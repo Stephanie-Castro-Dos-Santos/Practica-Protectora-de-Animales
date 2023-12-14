@@ -1,5 +1,5 @@
 <?php 
-    require_once "CRUD.php";
+    require_once "DAO/CRUD.php";
 
     class Usuario extends CRUD{
         private $id;
@@ -50,7 +50,7 @@
     /* ---------------------------------------------------------------------- */
         // MÉTODOS PÚBLICOS - abstractos de la clase PADRE
 
-        public function crear(){
+        /*public function crear(){
 
             try{
 
@@ -111,7 +111,7 @@
                 echo "Error: " . $e->getMessage();
             }
 
-        }
+        }*/
 
     }
 ?>

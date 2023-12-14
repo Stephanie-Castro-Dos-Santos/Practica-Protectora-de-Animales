@@ -1,20 +1,21 @@
 <?php
+
     //Llamadas a las clases del MODELO
-    require_once "Modelo/Adopcion.php";
-    require_once "Modelo/Animal.php";
-    require_once "Modelo/Usuario.php";
 
     class Controlador{
         private $modelo;
-        private $vista;
+        private $elemento;
 
     /* ---------------------------------------------------------------------- */
 
         // Constructor
-        /*public function __construct($mod,$vis){
-            $this->modelo=$mod;
-            $this->vista=$vis;
-        }*/
+        public function __construct($mod){
+            $this->modelo="Modelo/".$mod.".php";
+
+            require_once $this->modelo;
+
+            $this->elemento=new $mod;
+        }
 
     /* ---------------------------------------------------------------------- */
         // MÉTODOS MÁGICOS
@@ -33,47 +34,61 @@
             }
         }
 
-        public function cont_index(){
+        public function mostrarDatos(){
+            $elementos = $this->elemento->obtieneTodos(); 
+    
+            foreach ($elementos as $elemento) {
+            //$this->usuario se convierte en una propiedad de la clase y permite accede   
 
-            //VARIABLES
-            $columnas;
-            $datos;
+                echo "<tr>";
 
-            if(isset($_POST["botonEnviar"])){
-                //get_object_vars($this) : array
-                $elemento;
-        
-                switch((int)$_POST["tablas"]){
-                    case 1:
-                        $elemento=new Usuario();
-                        break;
-        
-                    case 2:
-                        $elemento=new Animal();
-                        break;
-        
-                    case 3:
-                        $elemento=new Adopcion();
-                        break;
+                foreach($elemento as $key => $value) {
+                    echo "<td>{$value}</td>";
                 }
+
+                //$insertar=$controlador->elemento->borrar();
+
+                echo "<td>
+                            <button>Modificar</button>
+                            <button>Eliminar</button>
+                    </td>";
+
+                echo "</tr>"; 
+
+               /*  echo "<td>
+                <form method='post'>
+                    <input type='hidden' name='id_elemento' value='{$elemento->id}'>
+                    <button type='submit' name='eliminar_elemento'>Eliminar</button>
+                  </form>
+                 </td>";
+
+                echo "</tr>"; */
+
+            }                
         
-                $columnas=get_object_vars($elemento);
-                $datos=$elemento->obtieneTodos;
-            }
-            else{
-                $columnas=false;
-                $datos=false;
-            }
-
-            
-            //Llamada a la VISTA del index tras obtener los resultados
-            require_once "Vista/vista_index.php";
-
-
         }
 
-        public function cont_actualizar(){
+        //IDEA PARA BORRAR
+        public function eliminarElemento($id) {
+            $this->elemento->borrar($id);
+            echo "Elemento eliminado correctamente.";
+        }
 
+        // Manejar la acción de eliminar
+        
+        /* if (isset($_POST['eliminar_elemento'])) {
+        $id_elemento = $_POST['id_elemento'];
+        $controlador->eliminarElemento($id_elemento);
+        } */
+
+
+        public function propiedades(){
+            $atributos = get_class_vars(get_class($this->elemento));
+
+            foreach($atributos as $atributo){
+                echo "<label>{$atributo}:</label>";
+                echo "<input type='text' name='{$atributo}'>";
+            }
         }
 
 

@@ -9,16 +9,13 @@
     /* ---------------------------------------------------------------------- */
         //Constructor
         public function __construct($tabla){
-           
+            $this->tabla=$tabla;
             $this->conexion=parent::realizarConexion();
         }
     
     /* ---------------------------------------------------------------------- */
         //MÉTODOS PÚBLICOS  
         
-        
-
-
         //Método que dado un objeto lo insertará en la BBDD 
         public function crear($objeto){
  

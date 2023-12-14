@@ -2,13 +2,19 @@
 
     if(isset($_REQUEST["controlador"])){
         //Llamamos al CONTROLADOR
-        require_once "Controlador/Controlador.php";
+        $tabla=$_REQUEST["controlador"];
+        $nomControlador=ucfirst($tabla);
+        $urlControlador="Controlador/Controlador.php";
 
-        $controlador=new Controlador();
-        $url="Vista/".$_REQUEST["controlador"].".php";
-        require_once $url;
+        require_once $urlControlador;
+
+        //Llamamos a la VISTA
+        $urlVista="Vista/vista_".$tabla.".php";
+        
+        require_once $urlVista;
     }
     else{
         require_once "Vista/vista_index.php";
     }
+    
 ?>

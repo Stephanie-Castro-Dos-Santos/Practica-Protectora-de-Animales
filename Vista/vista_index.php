@@ -7,13 +7,12 @@
     <title>INDEX</title>
 </head>
 <body>
-    
 
-    <a href="index.php?controlador=vista_animal&accion=mostrarAnimales"><input type="submit" value="Animal"></a>
-    <a href="index.php?controlador=vista_adopcion&accion=mostrarAdopcion"><input type="submit" value="Adopción"></a>
-    <a href="index.php?controlador=vista_usuario&accion=mostrarUsuario"><input type="submit" value="Usuario"></a>
-
-
+    <h1>BIENVENIDO</h1>
+    <h3>Elige una tabla de la BASE de DATOS</h3>
+    <button onclick="window.location='index.php?controlador=animal&accion=mostrarAnimales'">Animal</button>
+    <button onclick="window.location='index.php?controlador=adopcion&accion=mostrarAnimales'">Adopción</button>
+    <button onclick="window.location='index.php?controlador=usuario&accion=mostrarAnimales'">Usuario</button>
 
 
 </body>

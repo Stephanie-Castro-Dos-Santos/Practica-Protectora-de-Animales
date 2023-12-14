@@ -1,7 +1,7 @@
 <?php
     class Conexion{
         // Atributos de la CLASE Conexión
-        private $host="localhost:3333";
+        private $host="localhost:3306";
         private $usuario="root";
         private $password="";
         private $database="protectora_animales";
@@ -22,7 +22,5 @@
                 echo "Error de conexión a la base de datos: " . $e->getMessage();
             }
         }
-
-
     }
 ?>
