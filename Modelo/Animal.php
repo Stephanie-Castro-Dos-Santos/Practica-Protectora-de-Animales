@@ -15,14 +15,7 @@
     /* ---------------------------------------------------------------------- */
 
         // Constructor
-        public function __construct($id, $nom, $esp, $raza, $gen, $color, $edad){
-            $this->id=$id;
-            $this->nombre = $nom;
-            $this->especie = $esp;
-            $this->raza = $raza;
-            $this->genero = $gen;
-            $this->color = $color;
-            $this->edad = $edad;
+        public function __construct(){
             $this->conexion=parent::realizarConexion();
             parent::__construct(self::TABLA);
         }

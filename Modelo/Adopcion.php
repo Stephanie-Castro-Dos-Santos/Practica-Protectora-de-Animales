@@ -13,12 +13,7 @@
     /* ---------------------------------------------------------------------- */
 
         // Constructor
-        public function __construct($id, $animal, $user, $fecha, $razon){
-            $this->id=$id;
-            $this->idAnimal= $animal;
-            $this->idUsuario= $user;
-            $this->fecha= $fecha;
-            $this->razon= $razon;
+        public function __construct(){
             $this->conexion=parent::realizarConexion();
             parent::__construct(self::TABLA);
         }

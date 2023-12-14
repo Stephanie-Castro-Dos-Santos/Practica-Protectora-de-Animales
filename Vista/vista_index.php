@@ -2,56 +2,19 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>INDEX</title>
 </head>
 <body>
-
-    <!--FORMULARIO SELECT PARA ELEGIR TABLA-->
-    <form name="formulario" method="post" action="index.php">
-
-        <select name="tablas">
-            <legend>Selecciona la tabla</legend>
-
-            <option value="1">Usuario</option>
-            <option value="2">Animal</option>
-            <option value="3">Adopción</option>
-        
-        </select>
-
-        <br>
-        <br/>
-        <input type="submit" name="botonEnviar" value="Mostrar" />
-    </form>
-
-    <button>Añadir</button> <!-- Redirección a la VISTA (INSERT) -->
-    <button>Modificar</button> <!-- Redirección a la VISTA (UPDATE) -->
-    <button>Borrar</button> <!-- Redirección a la VISTA (BORRAR) -->
-
-    <table>
-        <tr>
-            <?php
-                    if($columnas!=false && $datos!=false){
-                        //Imprimir nombres de columnas
-                        foreach($columnas as $columna){
-                            echo "<th>".$columna."</th>";
-                        }
-
-                        //Imprimir los registros
-                        foreach($datos as $dato){
-                            echo "<td>".$dato."</td>";
-                        }
-
-                    }
-            ?>
-        </tr>
-
-        <?php
-
-        ?>
-
-    </table>
-
     
+
+    <a href="index.php?controlador=vista_animal&accion=mostrarAnimales"><input type="submit" value="Animal"></a>
+    <a href="index.php?controlador=vista_adopcion&accion=mostrarAdopcion"><input type="submit" value="Adopción"></a>
+    <a href="index.php?controlador=vista_usuario&accion=mostrarUsuario"><input type="submit" value="Usuario"></a>
+
+
+
+
 </body>
 </html>

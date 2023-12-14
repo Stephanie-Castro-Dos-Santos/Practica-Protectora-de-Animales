@@ -14,13 +14,7 @@
     /* ---------------------------------------------------------------------- */
 
         // Constructor
-        public function __construct($id, $nom, $ape, $sexo, $dir, $tel){
-            $this->id=$id;
-            $this->nombre= $nom;
-            $this->apellido= $ape;
-            $this->sexo= $sexo;
-            $this->direccion= $dir;
-            $this->telefono= $tel;
+        public function __construct(){
             $this->conexion=parent::realizarConexion();
             parent::__construct(self::TABLA);
         }
