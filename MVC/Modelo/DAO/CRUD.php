@@ -20,19 +20,23 @@
         public function crear($objeto){
  
             try{
-                $consultaPreparada = $this->formarConsultaCrear($objeto); //Consulta preparada
-                
-          
 
-               $consulta = $this->conexion->prepare($consultaPreparada);
+                $consultaPreparada = $this->formarConsultaCrear($objeto); //Consulta preparada
+
+                $consulta = $this->conexion->prepare($consultaPreparada);
 
 
                 //Dar valor a los parametros de la consulta preparada:
-                foreach($objeto->obtenerAtributos() AS $columna => $valor){
+                $propiedades=$objeto->obtenerAtributos();
 
-                  $consulta->bindValue(":".$columna,$valor);
+                foreach($propiedades as $clave => $valor){
 
-                  echo $columna." ".$valor;
+                    // Almacenar el valor en una variable
+                    $valorAtributo = $objeto->__get($valor);
+                    
+                    // Pasar la variable por referencia a bindParam
+                    $consulta->bindValue(":" . $valor, $valorAtributo);
+
                 }
 
                $consulta->execute();
@@ -70,7 +74,7 @@
 
 
             //Dar valor a los parametros de la consulta preparada:
-            foreach($colsModificadas AS $col){
+            foreach($colsModificadas as $col){
 
                 $consulta->bindValue(":".$col,$objeto->$col);
 
@@ -132,19 +136,31 @@
         }
 
         // Método para borrar un elemento de la tabla cuando coincida el ID
-        public function borrar($id){
+       /*  public function borrar($id){
             try{
-                
+                $consulta = $this->conexion->query("DELETE FROM $this->tabla WHERE id=$id;");
 
-                
-                    $consulta = $this->conexion->query("DELETE FROM $this->tabla WHERE id=$id;");
-    
-                   echo "Se elimino con exito";
+                echo "Se elimino con exito";
             }
             catch(PDOException $e){
                 echo "Error: " . $e->getMessage();
             }
-        }
+        } */
+
+        public function borrar($id){
+            /*  try { */
+                 // Utilizamos una consulta preparada para evitar problemas de seguridad
+                 $consulta = $this->conexion->prepare("DELETE FROM $this->tabla WHERE id = :id");
+                 $consulta->bindParam(":id", $id, PDO::PARAM_INT);
+         
+                 // Ejecutamos la consulta preparada
+                 $consulta->execute();
+         
+               /*   echo "Elemento eliminado con éxito.";
+             } catch(PDOException $e) {
+                 echo "Error: " . $e->getMessage();
+             } */
+         }
 
     /* ---------------------------------------------------------------------- */
 
@@ -159,55 +175,66 @@
         $atributosObjeto = $objeto->obtenerAtributos();//Array asociativo con el nombre de los atributos del objeto y sus valores
 
         $values="";
-        $campos="";
 
-        foreach($atributosObjeto as $nombreAtributo => $valor){
 
-            $values = $values.":".$nombreAtributo.",";
-            $campos = $campos.$nombreAtributo.",";
+        foreach($atributosObjeto as $clave => $valor){
+
+            $values = $values.":".$valor.",";
+
         }
 
         $values = substr($values, 0, -1); //Se quita la ultima coma de la cadena
-        
-        $campos = substr($campos, 0, -1);
 
-        return "INSERT INTO ".$objeto::TABLA."({$campos}) VALUES({$values})";
+
+        return "INSERT INTO ".$objeto::TABLA." VALUES({$values});";
        
 
     }
 
-        //Funcion auxiliar para Actualizar, devolvera el nombre de las columnas que han sido modificadas
-        private function devolverColsDistintos($objeto){
+    //Funcion auxiliar para Actualizar, devolvera el nombre de las columnas que han sido modificadas
+    private function devolverColsDistintos($objeto){
 
-            $atributosObjeto = $objeto->obtenerAtributos();//Array asociativo con el nombre de los atributos del objeto y sus valores
-          try{
-                   $consulta = "SELECT * FROM ". $objeto::TABLA ." WHERE id = $objeto->id ";
-                   $resultado = $this->conexion->query($consulta);
-    
-                   $fila = $resultado->fetch(PDO::FETCH_ASSOC);
-                   $nombreColumnasCambiadas = [];
-                   
-                   foreach ($atributosObjeto as $nombreAtributo => $valor) {
-                       if ($fila[$nombreAtributo] != $valor) {
-                           array_push($nombreColumnasCambiadas,$nombreAtributo);
-                       }
-                   }
-                   
-                   foreach ($nombreColumnasCambiadas as $ola) {
-                      
-                   }
-                  
-               
-                    return $nombreColumnasCambiadas;
-              
+        $atributosObjeto = $objeto->obtenerAtributos();//Array asociativo con el nombre de los atributos del objeto y sus valores
+        try{
+                $consulta = "SELECT * FROM ". $objeto::TABLA ." WHERE id = $objeto->id ";
+                $resultado = $this->conexion->query($consulta);
+
+                $fila = $resultado->fetch(PDO::FETCH_ASSOC);
+                $nombreColumnasCambiadas = [];
                 
-    
-            }catch(PDOException $e){
-                echo "Error: " . $e->getMessage();
-            }
+                foreach ($atributosObjeto as $nombreAtributo => $valor) {
+                    if ($fila[$nombreAtributo] != $valor) {
+                        array_push($nombreColumnasCambiadas,$nombreAtributo);
+                    }
+                }
+                
+                foreach ($nombreColumnasCambiadas as $ola) {
+                    
+                }
+                
+            
+                return $nombreColumnasCambiadas;
+            
+            
+
+        }catch(PDOException $e){
+            echo "Error: " . $e->getMessage();
         }
-      
+    }
+
+    public function obtenerTipoLongitud(){
+        $consulta = $this->conexion->prepare(
+                                                "SELECT DATA_TYPE, CHARACTER_MAXIMUM_LENGTH
+                                                FROM information_schema.columns
+                                                WHERE TABLE_NAME = {$this->tabla} AND TABLE_SCHEMA = {$this->conexion->__get('database')};");
+
+        // Ejecutamos la consulta preparada
+        $consulta->execute();
 
     }
+
+
+
+}
 
 ?>

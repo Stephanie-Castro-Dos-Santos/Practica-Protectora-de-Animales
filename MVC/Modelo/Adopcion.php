@@ -3,18 +3,18 @@
 
     class Adopcion extends CRUD{
         private $id;
-        private $idAnimal;
-        private $idUsuario;
+        private $id_Animal;
+        private $id_Usuario;
         private $fecha;
         private $razon;
-        private $conexion;
+        //private $conexion;
         const TABLA = "adopcion";
 
     /* ---------------------------------------------------------------------- */
 
         // Constructor
         public function __construct(){
-            $this->conexion=parent::realizarConexion();
+            //$this->conexion=parent::realizarConexion();
             parent::__construct(self::TABLA);
         }
 
@@ -39,14 +39,15 @@
         function __toString(){
             return  "<b>USUARIO:</b> <br>". 
                         "ID: ".$this->id . 
-                        "<br>ID Animal: " . $this->idAnimal . 
-                        "<br>ID Usuario: " . $this->idUsuario. 
+                        "<br>ID Animal: " . $this->id_Animal . 
+                        "<br>ID Usuario: " . $this->id_Usuario. 
                         "<br>Fecha: " . $this->fecha . 
                         "<br>Razón: " . $this->razon;
         }
 
         public function obtenerAtributos(){
-            return get_object_vars($this);
+            $propiedades = get_object_vars($this);
+            return array_keys($propiedades);
         }
 
     /* ---------------------------------------------------------------------- */
@@ -63,8 +64,8 @@
         
                     // 2. Como parámetro pasamos los valores del OBJETO
                     $consulta->bindParam(1, $this->id, PDO::PARAM_INT); 
-                    $consulta->bindParam(2, $this->idAnimal);
-                    $consulta->bindParam(3, $this->idUsuario);
+                    $consulta->bindParam(2, $this->id_Animal);
+                    $consulta->bindParam(3, $this->id_Usuario);
                     $consulta->bindParam(4, $this->fecha);
                     $consulta->bindParam(5, $this->razon);
         
@@ -90,12 +91,12 @@
                 if($registros!=false){
 
                     // 1. Preparamos la consulta de UPDATE
-                    $consulta=$this->conexion->prepare("UPDATE " .self::TABLA. " SET id=?,idAnimal=?,idUsuario=?,fecha=?,razon=? WHERE id = ?;");
+                    $consulta=$this->conexion->prepare("UPDATE " .self::TABLA. " SET id=?,id_Animal=?,id_Usuario=?,fecha=?,razon=? WHERE id = ?;");
         
                     // 2. Como parámetro pasamos los valores del OBJETO
                     $consulta->bindParam(1, $this->id, PDO::PARAM_INT); 
-                    $consulta->bindParam(2, $this->idAnimal);
-                    $consulta->bindParam(3, $this->idUsuario);
+                    $consulta->bindParam(2, $this->id_Animal);
+                    $consulta->bindParam(3, $this->id_Usuario);
                     $consulta->bindParam(4, $this->fecha);
                     $consulta->bindParam(5, $this->razon);
                     $consulta->bindParam(6, $this->id, PDO::PARAM_INT);

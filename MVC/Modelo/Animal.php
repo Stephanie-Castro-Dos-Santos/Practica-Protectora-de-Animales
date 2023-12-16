@@ -9,14 +9,14 @@
         private $genero;
         private $color;
         private $edad;
-        private $conexion;
+        //private $conexion;
         const TABLA = "animal";
 
     /* ---------------------------------------------------------------------- */
 
         // Constructor
         public function __construct(){
-            $this->conexion=parent::realizarConexion();
+            //$this->conexion=parent::realizarConexion();
             parent::__construct(self::TABLA);
         }
 
@@ -50,7 +50,8 @@
         }
 
         public function obtenerAtributos(){
-            return get_object_vars($this);
+            $propiedades = get_object_vars($this);
+            return array_keys($propiedades);
         }
 
     /* ---------------------------------------------------------------------- */

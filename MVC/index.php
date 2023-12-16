@@ -22,7 +22,8 @@
 
         /*-----------------------CARGAMOS VISTAS------------------------------*/
         //Llamamos a la VISTA
-        require_once "Vista/vista_general_tablas.php";;
+        require_once "Vista/vista_general_tablas.php";
+
     }
     else{
         require_once "Vista/vista_index.php";

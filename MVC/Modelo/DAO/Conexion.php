@@ -1,12 +1,20 @@
 <?php
     class Conexion{
         // Atributos de la CLASE Conexión
-        private $host="localhost:3333";
+        private $host="localhost:3306";
         private $usuario="root";
         private $password="";
         private $database="protectora_animales";
     
     /* ---------------------------------------------------------------------- */
+        // MÉTODOS MÁGICOS
+
+        //__get()
+        function __get($propiedad){
+            if(property_exists($this, $propiedad)) {
+                return $this->$propiedad;
+            }
+        }
 
         // Método para conectar con la BBDD
         protected function realizarConexion(){

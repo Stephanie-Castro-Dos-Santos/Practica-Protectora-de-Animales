@@ -43,11 +43,11 @@ class Controlador
     public function mostrarColumnas(){
         $columnas=$this->elemento->obtenerAtributos();
 
-        foreach($columnas as $columna=>$valor){
-            echo "<th>$columna</th>";
+        foreach($columnas as $columna=>$nombre){
+            $nombre=strtoupper($nombre);
+            echo "<th>$nombre</th>";
         }
     }
-
 
 
     public function mostrarDatos()
@@ -58,15 +58,25 @@ class Controlador
             echo "<tr>";
 
             foreach ($elemento as $key => $value) {
-                echo "<td><input type='text' value='{$value}'></td>";
+                echo "<td><input type='text' name='{$key}' value='{$value}'></td>";
             }
 
             echo "<td>
-                <button>Modificar</button>
-                <button type='submit' name='eliminar_elemento'>Eliminar</button>
+                <input type='submit' name='modificar_elemento' value='Modificar'>
+                <input type='submit' name='eliminar_elemento' value='Eliminar'>
             </td>";
 
             echo "</tr>";
+
+            /* echo "<td>
+            <button>Modificar</button>
+            <form method='POST' action='' onsubmit='recargarPagina()'>";
+        echo "<input type='submit' name='eliminar_elemento' value='Eliminar'>";
+        echo "<input type='hidden' name='id_elemento' value='{$elemento["id"]}'>";
+        echo "</form>
+        </td>";
+
+        echo "</tr>"; */
         }
     }
 
@@ -77,23 +87,19 @@ class Controlador
 
         foreach ($elementos as $elemento => $valor) {
             echo "<td>
-                    <input type='text' placeholder='$elemento'>
+                    <input type='text' name='{$valor}'placeholder='{$valor}'>
                 </td>";
         }
 
         echo "<td>
-                <button>Crear</button>
+                <input type='submit' name='crear_elemento' value='Crear'>
             </td>";
 
         echo "</tr>";
     }
 
-    //BORRADO DE REGISTROS
-    /* He comentado de la linea 153 a la 155 en crud el metodo borrar porque al borrar 
-    un registro me saltaba el mensaje de que no existía justo despues del borrado de forma automática.
-    de esta forma ya no pasa eso, aunque hay que ver una forma para recargar la página y que se vea el 
-    borrado automático sin pulsar f5 manualmente */
-    public function eliminarElemento($id)
+        //BORRADO DE REGISTROS
+    public function eliminarElemento()
     {
         // Verificar si se ha enviado la solicitud de eliminación
         if (isset($_POST['eliminar_elemento'])) {
@@ -102,25 +108,27 @@ class Controlador
 
             // Llamar al método borrar del modelo
             $resultado = $this->elemento->borrar($id_elemento);
-
-            if ($resultado) {
-                echo "Elemento eliminado correctamente.";
-            } 
-        }
-    }
-
-    public function propiedades()
-    {
-        $atributos = get_class_vars(get_class($this->elemento));
-
-        foreach ($atributos as $atributo) {
-            echo "<label>{$atributo}:</label>";
-            echo "<input type='text' name='{$atributo}'>";
         }
     }
 
 
+    public function crearElemento(){
+        if(isset($_POST["crear_elemento"])){
+
+            print_r($_POST);
+            var_dump($_POST);
+            $propiedades=$_POST;
+            array_shift($propiedades);
+
+            foreach($propiedades as $propiedad=>$valor){
+                $this->elemento->__set($propiedad,$valor);
+            }
     
+            $this->elemento->crear($this->elemento);
+
+        }
+    }
+
     function devolverSelect($tabla){
         
         $crud = new CRUD($tabla);
@@ -154,6 +162,20 @@ class Controlador
             $crud = new CRUD($objeto::TABLA);
 
             $crud->actualizar($objeto);
+
+            foreach ($_POST as $key => $value) {
+                $_POST[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_STRING);
+            }
+            
+            // Limpiar las variables $_GET
+            foreach ($_GET as $key => $value) {
+                $_GET[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_STRING);
+            }
+            
+            // Limpiar las variables $_REQUEST
+            foreach ($_REQUEST as $key => $value) {
+                $_REQUEST[$key] = filter_input(INPUT_REQUEST, $key, FILTER_SANITIZE_STRING);
+            }
 
             
         }

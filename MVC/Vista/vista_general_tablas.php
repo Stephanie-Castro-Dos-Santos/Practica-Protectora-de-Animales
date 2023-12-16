@@ -1,3 +1,7 @@
+<?php
+    $controlador->crearElemento();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,22 +13,27 @@
 
     <h1>TABLA <?php echo $_SESSION["tabla"] ?></h1>
 
-    <table>
-        <tr>
+    <form method="post" action="">
+        <table>
+            <tr>
+
+                <?php
+                    $controlador->mostrarColumnas();
+                ?>
+
+            </tr>
 
             <?php
-                $controlador->mostrarColumnas();
+                $controlador->mostrarDatos();
+                $controlador->mostrarCrear();
+              /*   $controlador->eliminarElemento(); */
             ?>
 
-        </tr>
 
-        <?php
-            $controlador->mostrarDatos();
-            $controlador->mostrarCrear();
-        ?>
-    </table>
+        </table>
+    </form>
 
-    <button>Nuevo</button>
+    <button onclick="window.location='index.php'">Atrás</button>
 
 </body>
 </html>
