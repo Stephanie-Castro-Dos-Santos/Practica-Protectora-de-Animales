@@ -1,5 +1,15 @@
 <?php
-    $controlador->crearElemento();
+    // Comprobar si el formulario ha sido enviado
+    if (isset($_POST["crear_elemento"])) {
+        // Validar y procesar los datos POST
+        $controlador->crearElemento();
+    }
+    elseif(isset($_POST["modificar_elemento"])){
+        $controlador->actualizarElemento();
+    }
+    elseif(isset($_POST["eliminar_elemento"])){
+        $controlador->eliminarElemento();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -7,7 +17,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adopcion</title>
+    <link rel="stylesheet" type="text/css" href="../styles/styles.css">
+    <title><?php echo $_SESSION["tabla"] ?></title>
 </head>
 <body>
 
@@ -26,7 +37,6 @@
             <?php
                 $controlador->mostrarDatos();
                 $controlador->mostrarCrear();
-              /*   $controlador->eliminarElemento(); */
             ?>
 
 
@@ -34,6 +44,10 @@
     </form>
 
     <button onclick="window.location='index.php'">Atrás</button>
+
+    <script>
+        window.history.replaceState(null, null, window.location.href);
+    </script>
 
 </body>
 </html>

@@ -2,11 +2,11 @@
     //Iniciamos una session
     session_start();
 
-    if(isset($_REQUEST["controlador"])){
+    if(isset($_GET["controlador"])){
         /*-----------------------ASIGNAR VARIABLES------------------------------*/
         //Obtenemos las variables de la URL
         //TABLA
-        $tabla=$_REQUEST["controlador"];
+        $tabla=$_GET["controlador"];
         $tabla=ucfirst($tabla);
 
         //Crear los variables de SESSION

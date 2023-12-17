@@ -1,0 +1,59 @@
+
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #3498db; /* Fondo azul */
+    color: #fff; /* Texto blanco */
+}
+input{
+    text-align:center;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilos para input de la tabla */
+table input[type="text"] {
+    border: 1px solid #fff; /* Borde blanco */
+    border-radius: 5px; /* Picos redondeados */
+    background-color: #fff; /* Fondo blanco */
+    color: #333; /* Texto negro */
+}
+
+/* Estilos para input a modo botón */
+input[type="submit"] {
+    background-color: #e74c3c; /* Fondo rojo */
+    color: #fff; /* Texto blanco */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px; /* Picos redondeados */
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Estilos para el botón "Atrás" */
+button {
+    background-color: #27ae60; /* Fondo verde */
+    color: #fff; /* Texto blanco */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px; /* Picos redondeados */
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Cambiar color de enlaces si es necesario */
+a {
+    color: #fff;
+}
+
+/* Otros estilos específicos si es necesario */
+

@@ -10,7 +10,7 @@
         // MÉTODOS MÁGICOS
 
         //__get()
-        function __get($propiedad){
+        public function __get($propiedad){
             if(property_exists($this, $propiedad)) {
                 return $this->$propiedad;
             }
